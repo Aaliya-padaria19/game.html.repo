@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Button Example</title>
+    <style>
+
+        /* Ripple effect styling */
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Hover effect */
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Active effect */
+        button:active {
+            transform: translateY(1px);
+        }
+
+        /* Container for centering */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f7fa;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            text-transform: none;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button id="actionButton" class="tooltip">
+            Click Me
+            <span class="tooltiptext">Click for a surprise!</span>
+        </button>
+    </div>
+
+    <script>
+        document.getElementById('actionButton').addEventListener('click', function(e) {
+            // Create ripple effect
+            let ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            
+            // Position the ripple at click coordinates
+            this.appendChild(ripple);
+            const rect = this.getBoundingClientRect();
+            ripple.style.left = `${e.clientX - rect.left}px`;
+            ripple.style.top = `${e.clientY - rect.top}px`;
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+            
+            // Action when button is clicked
+            alert('Button clicked successfully!');
+            
+            // Bonus: Toggle color on click
+            this.style.background = this.style.background.includes('#4CAF50') 
+                ? 'linear-gradient(135deg, #6e8efb, #a777e3)' 
+                : 'linear-gradient(135deg, #a777e3, #4CAF50)';
+        });
+    </script>
+</body>
+</html>
